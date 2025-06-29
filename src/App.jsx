@@ -54,6 +54,30 @@ const countries = {
     bounds: { latMin: -44, latMax: -10, lngMin: 113, lngMax: 154 },
     center: [-25.2744, 133.7751],
     zoom: 4
+  },
+  canada: {
+    name: 'Canada',
+    bounds: { latMin: 41, latMax: 84, lngMin: -141, lngMax: -52 },
+    center: [56.1304, -106.3468],
+    zoom: 3
+  },
+  brazil: {
+    name: 'Brazil',
+    bounds: { latMin: -34, latMax: 6, lngMin: -74, lngMax: -34 },
+    center: [-14.2350, -51.9253],
+    zoom: 4
+  },
+  russia: {
+    name: 'Russia',
+    bounds: { latMin: 41, latMax: 82, lngMin: 26, lngMax: 190 },
+    center: [61.5240, 105.3188],
+    zoom: 3
+  },
+  southafrica: {
+    name: 'South Africa',
+    bounds: { latMin: -35, latMax: -22, lngMin: 16, lngMax: 33 },
+    center: [-30.5595, 22.9375],
+    zoom: 5
   }
 };
 
@@ -383,7 +407,7 @@ function App() {
                   <select
                     value={selectedCountry}
                     onChange={(e) => setSelectedCountry(e.target.value)}
-                    className="w-full sm:w-auto appearance-none px-4 sm:px-6 py-3 sm:py-4 pr-12 border border-slate-200 dark:border-slate-600 rounded-2xl bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm text-slate-900 dark:text-white focus:outline-none focus:ring-3 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300 font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl"
+                    className="w-full sm:w-auto appearance-none px-4 sm:px-6 py-3 sm:py-4 pr-12 border border-slate-200 dark:border-slate-600 rounded-2xl bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm text-slate-900 dark:text-white focus:outline-none focus:ring-3 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300 font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl min-w-[200px]"
                   >
                     <option value="india">🇮🇳 India</option>
                     <option value="china">🇨🇳 China</option>
@@ -393,22 +417,15 @@ function App() {
                     <option value="uk">🇬🇧 United Kingdom</option>
                     <option value="japan">🇯🇵 Japan</option>
                     <option value="australia">🇦🇺 Australia</option>
+                    <option value="canada">🇨🇦 Canada</option>
+                    <option value="brazil">🇧🇷 Brazil</option>
+                    <option value="russia">🇷🇺 Russia</option>
+                    <option value="southafrica">🇿🇦 South Africa</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
                     <svg className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </div>
-                </div>
-
-                {/* Auto-refresh Toggle */}
-                <div className="relative w-full sm:w-auto">
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2 ml-1">
-                    Auto-refresh
-                  </label>
-                  <div className="flex items-center gap-3 px-4 py-3 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-600 shadow-lg">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">30s</span>
                   </div>
                 </div>
               </div>
@@ -554,64 +571,6 @@ function App() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Flight Filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/30 dark:border-slate-700/50 mb-8"
-          >
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-              </svg>
-              Flight Filters
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Altitude Range</label>
-                <div className="flex items-center gap-2">
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="50000" 
-                    className="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
-                  />
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">All</span>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Speed Range</label>
-                <div className="flex items-center gap-2">
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="1000" 
-                    className="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
-                  />
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">All</span>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Status</label>
-                <select className="w-full px-3 py-2 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white text-sm">
-                  <option>All Flights</option>
-                  <option>In Flight</option>
-                  <option>On Ground</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Sort By</label>
-                <select className="w-full px-3 py-2 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white text-sm">
-                  <option>Altitude (High to Low)</option>
-                  <option>Speed (High to Low)</option>
-                  <option>Distance (Near to Far)</option>
-                  <option>Recent Updates</option>
-                </select>
               </div>
             </div>
           </motion.div>
